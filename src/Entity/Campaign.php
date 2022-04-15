@@ -18,6 +18,10 @@ use Symfony\Component\Uid\UuidV4;
  */
 class Campaign
 {
+    public function __toString()
+    {
+        return $this->name;
+    }
     /**
      * @var Uuid
      * @ORM\Id
@@ -26,6 +30,7 @@ class Campaign
      * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     private $id;
+
 
     /**
      * @var string|null

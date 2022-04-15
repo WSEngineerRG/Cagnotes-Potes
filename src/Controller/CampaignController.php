@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Campaign;
+use App\Entity\Payment;
 use App\Form\CampaignType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,8 +48,22 @@ class CampaignController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_campaign_show', methods: ['GET'])]
-    public function show(Campaign $campaign): Response
+    public function show(Campaign $campaign, ManagerRegistry $doctrine): Response
     {
+        $payements = [];
+        foreach ($campaign->getParticipants() as $participant) {
+            $participantsPayments = $doctrine
+                ->getRepository(Payment::class)
+                ->findBy(['participant' => $participant]);
+        };
+        dd($participantsPayments);
+
+        array_push($payements, ...$participantsPayments);
+
+        $sum = array_sum(array_map(function ($payment) {
+            return $payment->getAmount();
+        }, $payements));
+
         return $this->render('campaign/show.html.twig', [
             'campaign' => $campaign,
         ]);

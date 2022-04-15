@@ -43,7 +43,7 @@ class CampaignType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Nom',
                 'attr' => [
-                    'placeholder' => 'Nom de la campagne',
+                    'placeholder' => 'Nom de l\'organisateur'
                 ],
             ])
         ;

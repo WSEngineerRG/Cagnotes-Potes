@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+
 {% block body %}
 
     <div class="parallax-container valign-wrapper">
@@ -14,27 +15,27 @@
         <div class="parallax"><img src="{{ asset ('assets/images/8.jpg') }}" alt="Titre de la campagne"></div>
     </div>
 
-    <!-- Show progress -->
-    <section class="progress-section">
-        <div class="progress">
+{#    <!-- Show progress -->#}
+{#    <section class="progress-section">#}
+{#        <div class="progress">#}
 
-            {% set count = 0 %}
+{#            {% set count = 0 %}#}
 
-            {% set totalAmount = 0 %}
+{#            {% set totalAmount = 0 %}#}
 
-            {% for payment in payments %}
+{#            {% for payment in payments %}#}
 
-                {% set totalAmount = totalAmount + payment.amount %}
+{#                {% set totalAmount = totalAmount + payment.amount %}#}
 
-                {% set count = count + 1 %}
+{#                {% set count = count + 1 %}#}
 
-            {% endfor %}
+{#            {% endfor %}#}
 
-            {% set percentAmount = totalAmount * 100 / campaign.goal %}
+{#            {% set percentAmount = totalAmount * 100 / campaign.goal %}#}
 
-            <div class="determinate" style="width: {{ percentAmount|round }}%"><span>{{ percentAmount|round }} % de l'objectif</span></div>
-        </div>
-    </section>
+{#            <div class="determinate" style="width: {{ percentAmount|round }}%"><span>{{ percentAmount|round }} % de l'objectif</span></div>#}
+{#        </div>#}
+{#    </section>#}
 
     <div class="container participe">
         <div class="section">
@@ -43,13 +44,11 @@
                 <div class="card col s12 m12 l8 offset-l2">
                     <div class="card-content">
 
-                        <form action="{{ path ('payment_new', {'id': campaign.id}) }}" method="POST">
                             <div class="input-field col s12 l6">
                                 <label for="mount">Votre participation</label>
                                 <input name="amount" id="mount" type="number" class="validate" min="1">
                             </div>
                             <button type="submit" class="btn-large waves-effect waves-light pink lighten-1 col s12 l6">Participer</button>
-                        </form>
 
                         <div class="clearfix"></div>
                     </div>
@@ -65,7 +64,7 @@
                 <div class="col s12 m6 l3 offset-l3">
                     <div class="icon-block center">
                         <div class="btn-large btn-floating white"><i class="material-icons teal-text">person</i></div>
-                        <h3 class="center">{{count}}</h3>
+                        <p class="light">{{ campaign.participants | length  }}</p>
                         <p class="light">Participants</p>
                     </div>
                 </div>
@@ -73,7 +72,7 @@
                 <div class="col s12 m6 l3">
                     <div class="icon-block center">
                         <div class="btn-large btn-floating white"><i class="material-icons teal-text">redeem</i></div>
-                        <h3 class="center">{{totalAmount}}</h3>
+                        <p class="light">{{ campaign}}</p>
                         <p class="light">euros récoltés</p>
                     </div>
                 </div>
@@ -90,51 +89,40 @@
                         <label for="goal">Objectif</label>
                     </div>
                     <div class="col s12 l6 offset-l3">
-                        <button class="btn btn-large waves-effect waves-light col s12" type="submit" name="action">
-                            <a href="{{ path('campaign_edit', {'id': campaign.id}) }}">Modifiez la campagne</a>
+                        <button onclick="back('/campaign/{{ campaign.id }}/edit')" class="btn btn-large waves-effect waves-light col s12">
+                            Edit
                             <i class="material-icons right">edit</i>
                         </button>
                     </div>
                 </form>
             </div>
             <!-- List -->
-            <div class="row">
-                <div class="col s12 center">
-                    <h4>Liste des participants</h4>
-                </div>
-                <div class="col s12">
-                    <table class="highlight responsive-table">
-                        <thead>
-                        <tr>
-                            <th>Email</th>
-                            <th>Participation</th>
-                        </tr>
+{#            <div class="row">#}
+{#                <div class="col s12 center">#}
+{#                    <h4>Liste des participants</h4>#}
+{#                </div>#}
+{#                <div class="col s12">#}
+{#                    <table class="highlight responsive-table">#}
+{#                        <thead>#}
+{#                        <tr>#}
+{#                            <th>Email</th>#}
+{#                            <th>Participation</th>#}
+{#                        </tr>#}
 
-                        </thead>
+{#                        </thead>#}
 
-                        <tbody>
+{#                        <tbody>#}
+{#                        {% for participant in participants %}#}
+{#                            <tr>#}
+{#                                <td>{{ participant.email }}</td>#}
+{#                                <td>{{ participant.amount }}</td>#}
+{#                            </tr>#}
+{#                        {% endfor %}#}
 
-                        {% for payment in payments %}
-
-                            {% if payment.participantId.isAnonymous == 0 %}
-                                <tr>
-                                    <td>{{payment.participantId.email}}</td>
-                                    <td>{{payment.amount}} €</td>
-                                </tr>
-                            {% else %}
-                                <tr>
-                                    <td style='font-style:italic;'>Participant masqué</td>
-                                    <td>{{payment.amount}} €</td>
-                                </tr>
-                            {% endif %}
-
-
-                        {% endfor %}
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+{#                        </tbody>#}
+{#                    </table>#}
+{#                </div>#}
+{#            </div>#}
         </div>
     </div>
     {#

@@ -72,7 +72,14 @@
             <script type="text/javascript" src="/assets/js/scripts.js"></script>
             <script type="text/javascript" src="{{ asset('assets/js/simplemde.min.js') }}"></script>
             <script>
-                let simplemde = new SimpleMDE();
+                let simplemde = new SimpleMDE({
+                    forceSync: true,
+                });
+
+                function back(route) {
+                    location.href = route;
+                    console.log(route);
+                }
             </script>
         {% endblock %}
 

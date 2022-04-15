@@ -6,46 +6,64 @@
         <nav class="white">
             <div class="nav-wrapper">
                 <a href="/" class="brand-logo center">Cagnot'Potes</a>
-                <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <button class="btn red right" onclick="back('/campaign/new')">Crée une campagne !</button>
             </div>
         </nav>
     </div>
 
     <h1 class="center">Campaign index</h1>
-
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Content</th>
-            <th>Created_at</th>
-            <th>Updated_at</th>
-            <th>Goal</th>
-            <th>Name</th>
-            <th>actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for campaign in campaigns %}
-            <tr>
-                <td>{{ campaign.id }}</td>
-                <td>{{ campaign.title }}</td>
-                <td>{{ campaign.content }}</td>
-                <td>{{ campaign.createdAt ? campaign.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ campaign.updatedAt ? campaign.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ campaign.goal }}</td>
-                <td>{{ campaign.name }}</td>
-                <td>
-                    <a href="{{ path('app_campaign_show', {'id': campaign.id}) }}">show</a>
-                    <a href="{{ path('app_campaign_edit', {'id': campaign.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <main class="p-10 flex flex-row gap-6 justify-center md:p-10 sm:p-8 overflow-hidden" >
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Id
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Title
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Content
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Goals
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Actions
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <span class="sr-only">Edit</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for campaign in campaigns %}
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 w-full">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                            {{ campaign.id }}
+                        </th>
+                        <td class="px-6 py-4"> {{ campaign.title }}</td>
+                        <td class="px-6 py-4">{{ campaign.content }}</td>
+{#                        <td class="px-6 py-4">{{ campaign.createdAt ? campaign.createdAt|date('Y-m-d H:i:s') : '' }}</td>#}
+{#                        <td class="px-6 py-4">{{ campaign.updatedAt ? campaign.updatedAt|date('Y-m-d H:i:s') : '' }}</td>#}
+                        <td class="px-6 py-4">{{ campaign.goal }}</td>
+                        <td class="px-6 py-4">{{ campaign.name }}</td>
+                        <td class="px-6 py-4">
+                            <a href="{{ path('app_campaign_show', {'id': campaign.id}) }}">show</a>
+                            <a href="{{ path('app_campaign_edit', {'id': campaign.id}) }}">edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
 {% endblock %}
