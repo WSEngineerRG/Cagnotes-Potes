@@ -6,7 +6,7 @@ use App\Entity\Campaign;
 use App\Entity\Payment;
 use App\Form\CampaignType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,22 +50,23 @@ class CampaignController extends AbstractController
     #[Route('/{id}', name: 'app_campaign_show', methods: ['GET'])]
     public function show(Campaign $campaign, ManagerRegistry $doctrine): Response
     {
-        $payements = [];
+        $payments = [];
         foreach ($campaign->getParticipants() as $participant) {
-            $participantsPayments = $doctrine
-                ->getRepository(Payment::class)
-                ->findBy(['participant' => $participant]);
-        };
-        dd($participantsPayments);
+            $participantPayments = $doctrine->getRepository(Payment::class)->findBy(
+                ['participant' => $participant]
+            );
 
-        array_push($payements, ...$participantsPayments);
+            array_push($payments, ...$participantPayments);
+        }
 
-        $sum = array_sum(array_map(function ($payment) {
+        // Calculer la somme de tous les paiements
+        $sum = array_sum(array_map(function($payment) {
             return $payment->getAmount();
-        }, $payements));
+        }, $payments));
 
         return $this->render('campaign/show.html.twig', [
             'campaign' => $campaign,
+            'sum' => $sum,
         ]);
     }
 

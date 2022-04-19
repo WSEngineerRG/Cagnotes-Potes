@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +14,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Participant
 {
+    public function __toString()
+    {
+        return $this->getName();
+    }
     /**
      * @var int
      *
@@ -22,7 +28,7 @@ class Participant
     private $id;
 
     /**
-     * @var string|null
+     * @var |null
      *
      * @ORM\Column(name="name", type="string", length=200, nullable=true)
      */
@@ -82,6 +88,48 @@ class Participant
     public function setCampaign(?Campaign $campaign): self
     {
         $this->campaign = $campaign;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\OneToMany(targetEntity=Payment::class, mappedBy="participant")
+     */
+    private $payments;
+
+    public function __construct()
+    {
+        $this->payments = new ArrayCollection();
+    }
+
+
+
+    /**
+     * @return Collection<int, Payment>
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
+    }
+
+    public function addPayment(Payment $payment): self
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments[] = $payment;
+            $payment->setParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): self
+    {
+        if ($this->payments->removeElement($payment)) {
+            // set the owning side to null (unless already changed)
+            if ($payment->getParticipant() === $this) {
+                $payment->setParticipant(null);
+            }
+        }
 
         return $this;
     }

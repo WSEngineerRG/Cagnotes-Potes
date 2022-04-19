@@ -37,7 +37,7 @@ class Campaign
      *
      * @Assert\Length(
      *      min = 2,
-     *      max = 4,
+     *      max = 120,
      *      minMessage = "Your first name must be at least {{ limit }} characters long",
      *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
      * )
@@ -220,6 +220,31 @@ class Campaign
         }
 
         return $this;
+    }
+
+    public function getRecoltedAmount(): int {
+        $payments = [];
+        foreach ($this->getParticipants() as $participant) {
+            array_push($payments, ...$participant->getPayments());
+        }
+
+        // Calculer la somme de tous les paiements
+        $sum = array_sum(array_map(function($payment) {
+            return $payment->getAmount();
+        }, $payments));
+
+        return $sum;
+    }
+
+    public function getPercentage(): int {
+        $goal = $this->getGoal();
+        $recoltedAmount = $this->getRecoltedAmount();
+
+        if ($goal === 0) {
+            return 0;
+        }
+
+        return round(($recoltedAmount / $goal) * 100);
     }
 
 

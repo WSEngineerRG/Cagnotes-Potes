@@ -12,6 +12,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Payment
 {
+
+//    public function __toString(): string
+//    {
+//        // TODO: Implement __toString() method.
+//        $doString = $this->createdAt->format('d-m-Y'). "/" . $this->updatedAt->format('d-m-Y');
+//        return $doString;
+//    }
+
     /**
      * @var int
      *
@@ -104,6 +112,7 @@ class Payment
 
         return $this;
     }
+
 
 
 }

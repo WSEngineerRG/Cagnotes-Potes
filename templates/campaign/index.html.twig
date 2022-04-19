@@ -2,15 +2,6 @@
 
 
 {% block body %}
-    <div class="navbar-fixed">
-        <nav class="white">
-            <div class="nav-wrapper">
-                <a href="/" class="brand-logo center">Cagnot'Potes</a>
-                <button class="btn red right" onclick="back('/campaign/new')">Crée une campagne !</button>
-            </div>
-        </nav>
-    </div>
-
     <h1 class="center">Campaign index</h1>
     <main class="p-10 flex flex-row gap-6 justify-center md:p-10 sm:p-8 overflow-hidden" >
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -66,4 +57,7 @@
             </table>
         </div>
     </main>
+    <br>
+
+    <button class="btn red" onclick="back('new')">Create new</button>
 {% endblock %}
