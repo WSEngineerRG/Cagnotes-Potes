@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="moon">
+
+</div>
+  <style>
+      body{
+          background-color: black;
+      }
+    .moon:nth-child(1){
+      transform: translate(-15px, -15px);
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        box-shadow: 15px 15px 0 0 #eee9a3;
+    }
+    .moon:nth-child(1):hover{
+        transform: translate(10px, 10px);
+        border-radius: 50%;
+        box-shadow: 0 0 0 0;
+        visibility: visible;
+        z-index: -1;
+        background: radial-gradient(circle at 35% 55%, transparent, white);
+        filter: url('#filter');
+    }
+  </style>
+<script>
+    let moon = document.querySelector('.moon')
+
+    moon.addEventListener('click', (e) =>{
+        document.body.style.background = 'white';
+    });
+    moon.addEventListener('mouseout', () => {
+        document.body.style.background = "black";
+    });
+</script>
+</body>
+</html>
