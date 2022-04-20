@@ -20,7 +20,7 @@ class PaymentType extends AbstractType
         ])
             ->add('amount', NumberType::class, [
                 'label' => 'Votre Participation',
-            ])
+                ])
         ;
     }
 

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Participant
@@ -40,6 +41,12 @@ class Participant
      * @ORM\Column(name="email", type="string", length=200, nullable=true)
      */
     private $email;
+
+    public function getAllMailInDB(ManagerRegistry $doctrine)
+    {
+        $em = $doctrine->getRepository(Participant::class);
+        $em->findOneBy(['email' => $this->email]);
+    }
 
     /**
      * @var \Campaign
@@ -134,6 +141,14 @@ class Participant
         return $this;
     }
 
+    public function getTotalPaid(): ?float
+    {
+        $total = 0;
+        foreach ($this->payments as $payment) {
+            $total += $payment->getAmount();
+        }
+        return $total;
+    }
 
 
 }

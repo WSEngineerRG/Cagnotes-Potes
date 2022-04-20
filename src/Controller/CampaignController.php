@@ -102,25 +102,31 @@ class CampaignController extends AbstractController
     }
 
     #[Route('/{id}/payment', name: 'app_campaign_payment', methods: ['GET', 'POST'])]
-    public function payment(Campaign $campaign, Request $request, EntityManagerInterface $entityManager): Response
+    public function payment(Participant $participant, Campaign $campaign, Request $request, EntityManagerInterface $entityManager, ManagerRegistry $doctrine): Response
     {
         $payment = new Payment();
         $form = $this->createForm(PaymentType::class, $payment);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+
+        if ($form->isSubmitted() && $form->isValid() && $form->get('email')->getData() !== $participant->getEmail()) {
             $participant = new Participant();
             $participant->setEmail($form->get("email")->getData());
             $participant->setCampaign($campaign);
-            $entityManager->persist($participant);
 
-            $payment->setParticipant($participant);
+            $verif = $doctrine->getRepository(Participant::class)->findBy(['email' => $participant->getEmail()]);
+            if (count($verif) > 0) {
+                $payment->setParticipant($verif[0]);
+            }else {
+                $entityManager->persist($participant);
+                $payment->setParticipant($participant);
+            }
 
             $entityManager->persist($payment);
             $entityManager->flush();
 
 
-            return $this->redirectToRoute('app_campaign_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_campaign_show', ['id' => $campaign->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('campaign/payment.html.twig', [

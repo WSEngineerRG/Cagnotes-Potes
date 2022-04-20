@@ -197,6 +197,7 @@ class Campaign
      */
     public function getParticipants(): Collection
     {
+//        $this->participants = orderBy('payment.amount', 'desc');
         return $this->participants;
     }
 
