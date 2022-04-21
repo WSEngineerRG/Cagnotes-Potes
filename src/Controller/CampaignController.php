@@ -46,6 +46,7 @@ class CampaignController extends AbstractController
         return $this->renderForm('campaign/new.html.twig', [
             'campaign' => $campaign,
             'form' => $form,
+            'name' => $_POST['cag_name'],
         ]);
     }
 
@@ -133,6 +134,7 @@ class CampaignController extends AbstractController
             'payment' => $payment,
             'form' => $form,
             'campaign' => $campaign,
+            'amount' => $_POST['amount'],
         ]);
     }
 }

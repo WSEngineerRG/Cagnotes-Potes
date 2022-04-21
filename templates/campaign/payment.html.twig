@@ -25,7 +25,7 @@
             <div class="card-content">
                 <div class="row">
                     {{form_start(form)}}
-                    <h5 class="center">Votre identité</h5>
+{#                    <h5 class="center">Votre identité</h5>#}
                     <div class="input-field col s12 l6">
 
                         {{form_widget(form.email, {'attr':{'class':'validate'}})}}
@@ -33,7 +33,10 @@
                         {{form_label(form.email)}}
                     </div>
                     <div class="input-field col s12 l6">
-                        {{form_widget(form.amount, {'attr':{'class':'validate'}})}}
+                        {{form_widget(form.amount, {'attr':{'class':'validate'}, 'value': amount})}}
+                        {{ form_errors(form) }}
+                        {{form_label(form.amount)}}
+                        {{ form_errors(form) }}
                         {{form_label(form.amount)}}
                     </div>
                     <p>
@@ -49,23 +52,16 @@
                         </label>
                     </p>
                     <div class="clearfix"></div>
-                    <h5 class="center">Paiement</h5>
-                    <div class="input-field col s12">
-                        <input id="card_name" type="text" class="validate">
-                        <label for="card_name">Nom sur la carte</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input id="card_number" type="text" class="validate">
-                        <label for="card_number">Numéro de la carte</label>
-                    </div>
-                    <div class="input-field col s12 l8">
-                        <input id="card_expiration_date" type="date" class="validate">
-                        <label for="card_expiration_date">Date d'expiration</label>
-                    </div>
-                    <div class="input-field col s12 l4">
-                        <input id="card_cvv" type="text" class="validate">
-                        <label for="card_cvv">CVV</label>
-                    </div>
+{#                    {{ form_start(form, {attr: {id: form.vars.id}}) }}#}
+{#                    <div class="form-group">#}
+{#                        <label for="card-element">#}
+{#                            Credit or Debit Card#}
+{#                        </label>#}
+{#                        <div id="card-element" class="form-control"></div>#}
+{#                        <div id="card-errors" class="help-block" role="alert"></div>#}
+{#                    </div>#}
+{#                    {{ form_widget(form.token) }}#}
+{#                    {{ form_end(form) }}#}
                     <div class="input-field col s12 l6">
                         <a href="{{ path('app_campaign_show', {'id': campaign.id}) }})}}" class="btn btn-large waves-effect waves-light grey col s12">Annuler</a>
                     </div>
@@ -81,4 +77,20 @@
         </div>
     </div>
 </div>
+    <script>
+        let stripe = Stripe("pk_test_51IuZkVBMWIqO6CChzH8pw52KCqCZiu9mpUUmzDZvNujuuSculZwjoooNM8pY91hTTE7uRKumqaFjsv0GQHb5ecai00W8R0mT3f");
+        // The items the customer wants to buy
+        let elements = stripe.elements();
+        let style = {
+            base: {
+                // Add your base input styles here. For example:
+                fontSize: '16px',
+                color: '#32325d',
+            },
+        };
+        // Create an instance of the card Element.
+        let card = elements.create('card', {style: style});
+        // Add an instance of the card Element into the `card-element` <div>.
+        card.mount('#card-element');
+    </script>
 {% endblock %}

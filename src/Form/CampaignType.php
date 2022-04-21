@@ -45,6 +45,7 @@ class CampaignType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Nom de l\'organisateur'
                 ],
+                'empty_data' => $_POST['cag_name'] ?? '',
             ])
         ;
     }
